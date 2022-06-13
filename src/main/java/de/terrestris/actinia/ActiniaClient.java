@@ -126,4 +126,11 @@ public class ActiniaClient {
     }
   }
 
+  public Location getLocation(String name) {
+    if (locations.size() == 0) {
+      getLocations();
+    }
+    return locations.get(name);
+  }
+
 }
