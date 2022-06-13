@@ -18,4 +18,4 @@ jobs:
         env:
           ACTINIA_USER: '${{ secrets.ACTINIA_USER }}'
           ACTINIA_PASSWORD: '${{ secrets.ACTINIA_PASSWORD }}'
-        run: mvn -B package
+        run: mvn -B test
