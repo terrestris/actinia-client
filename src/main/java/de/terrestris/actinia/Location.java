@@ -35,6 +35,9 @@ public class Location {
   }
 
   public Mapset getMapset(String name) {
+    if (mapsets == null) {
+      getMapsets();
+    }
     return mapsets.get(name);
   }
 
