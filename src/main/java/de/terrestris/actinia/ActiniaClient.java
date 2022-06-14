@@ -27,6 +27,8 @@ public class ActiniaClient {
 
   private final Map<String, Location> locations = new HashMap<>();
 
+  private final Map<String, Module> modules = new HashMap<>();
+
   public ActiniaClient(String url, String username, String password) {
     this.url = url.endsWith("/") ? url : url + "/";
     client = HttpClient.newBuilder().authenticator(new Authenticator() {
@@ -131,6 +133,62 @@ public class ActiniaClient {
       getLocations();
     }
     return locations.get(name);
+  }
+
+  public List<Module> getModules() {
+    if (!this.modules.isEmpty()) {
+      return new ArrayList<>(this.modules.values());
+    }
+    HttpRequest request;
+    try {
+      request = HttpRequest.newBuilder(new URI(String.format("%slatest/modules", url))).build();
+      ObjectMapper mapper = new ObjectMapper();
+      HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+      JsonNode node = mapper.readTree(response.body());
+      if (!node.get("status").asText().equals("success")) {
+        throw new ActiniaException("Getting the locations was unsuccessful.");
+      }
+      node = node.get("processes");
+      for (JsonNode n : node) {
+        Module module = new Module(n.get("id").asText(), n.get("description").asText(), this);
+        this.modules.put(module.getName(), module);
+      }
+      return new ArrayList<>(this.modules.values());
+    } catch (URISyntaxException | IOException | InterruptedException e) {
+      log.warn("Unable to get modules: {}", e.getMessage());
+      log.trace("Stack trace:", e);
+      throw new ActiniaException("Unable to get modules", e);
+    }
+  }
+
+  public Module getModule(String name) {
+    if (modules.isEmpty()) {
+      getModules();
+    }
+    return modules.get(name);
+  }
+
+  public void updateDetails(Module module) {
+    HttpRequest request;
+    try {
+      request = HttpRequest.newBuilder(new URI(String.format("%slatest/modules/%s", url, module.getName()))).build();
+      ObjectMapper mapper = new ObjectMapper();
+      HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+      JsonNode node = mapper.readTree(response.body());
+      JsonNode params = node.get("parameters");
+      for (JsonNode n : params) {
+        module.addInputParameter(new Parameter(n));
+      }
+      JsonNode outputs = node.get("returns");
+      for (JsonNode n : outputs) {
+        module.addOutputParameter(new Parameter(n));
+      }
+
+    } catch (URISyntaxException | IOException | InterruptedException e) {
+      log.warn("Unable to update module details for {}: {}", module.getName(), e.getMessage());
+      log.trace("Stack trace:", e);
+      throw new ActiniaException("Unable to update module details for " + module.getName(), e);
+    }
   }
 
 }

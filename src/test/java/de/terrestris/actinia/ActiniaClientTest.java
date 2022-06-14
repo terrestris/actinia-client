@@ -47,4 +47,24 @@ public class ActiniaClientTest {
     Assertions.assertFalse(datasets.isEmpty());
   }
 
+  @Test
+  public void testGettingModules() {
+    List<Module> modules = client1.getModules();
+    Assertions.assertFalse(modules.isEmpty());
+  }
+
+  @Test void testGettingParameters() {
+    client1.getModules();
+    Module module = client1.getModule("d.barscale");
+    List<Parameter> params = module.getInputParameters();
+    Assertions.assertFalse(params.isEmpty());
+  }
+
+  @Test void testGettingOutputs() {
+    client1.getModules();
+    Module module = client1.getModule("i.cluster");
+    List<Parameter> params = module.getOutputParameters();
+    Assertions.assertFalse(params.isEmpty());
+  }
+
 }
