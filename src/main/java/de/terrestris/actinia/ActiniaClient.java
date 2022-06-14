@@ -146,7 +146,7 @@ public class ActiniaClient {
       HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
       JsonNode node = mapper.readTree(response.body());
       if (!node.get("status").asText().equals("success")) {
-        throw new ActiniaException("Getting the locations was unsuccessful.");
+        throw new ActiniaException("Getting the modules was unsuccessful.");
       }
       node = node.get("processes");
       for (JsonNode n : node) {
