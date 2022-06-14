@@ -23,10 +23,16 @@ public class Mapset {
     return name;
   }
 
+  /**
+   * Get the location the mapset is contained in.
+   */
   public Location getLocation() {
     return location;
   }
 
+  /**
+   * Get the raster layers of this mapset.
+   */
   public List<String> getRasterLayers() {
     if (rasterLayers != null) {
       return rasterLayers;
@@ -34,6 +40,9 @@ public class Mapset {
     return rasterLayers = client.getRasterLayers(location.getName(), name);
   }
 
+  /**
+   * Get the space time raster datasets of this mapset.
+   */
   public List<String> getSpaceTimeRasterDatasets() {
     if (spaceTimeRasterDatasets != null) {
       return spaceTimeRasterDatasets;
