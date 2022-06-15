@@ -24,6 +24,9 @@ public class Location {
     return name;
   }
 
+  /**
+   * Get all available mapsets.
+   */
   public List<Mapset> getMapsets() {
     if (mapsets != null) {
       return new ArrayList<>(mapsets.values());
@@ -34,6 +37,9 @@ public class Location {
     return new ArrayList<>(mapsets.values());
   }
 
+  /**
+   * Get a mapset by name.
+   */
   public Mapset getMapset(String name) {
     if (mapsets == null) {
       getMapsets();

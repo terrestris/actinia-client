@@ -52,6 +52,9 @@ public class Parameter {
     return optional;
   }
 
+  /**
+   * This contains the schema of the parameter as a JSON string, deserialize it if you need the details.
+   */
   public String getSchema() {
     return schema;
   }

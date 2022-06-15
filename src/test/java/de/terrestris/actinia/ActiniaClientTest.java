@@ -3,7 +3,9 @@ package de.terrestris.actinia;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActiniaClientTest {
 
@@ -65,6 +67,24 @@ public class ActiniaClientTest {
     Module module = client1.getModule("i.cluster");
     List<Parameter> params = module.getOutputParameters();
     Assertions.assertFalse(params.isEmpty());
+  }
+
+  @Test
+  public void testExecuteChain() {
+    Module region = client1.getModule("g.region");
+    Module ivi = client1.getModule("i.vi");
+    Map<String, String> regionParams = new HashMap<>();
+    Map<String, String> iviParams = new HashMap<>();
+    regionParams.put("raster", "lsat7_2000_50@landsat,lsat7_2000_61@landsat");
+    iviParams.put("red", "lsat7_2000_50@landsat");
+    iviParams.put("nir", "lsat7_2000_61@landsat");
+    iviParams.put("iviname", "ndvi");
+    iviParams.put("output", "astest");
+    List<Module> modules = List.of(region, ivi);
+    List<Map<String, String>> params = List.of(regionParams, iviParams);
+    ProcessStatus status = client1.runProcess("nc_spm_08", "astest", modules, params);
+    status.update();
+    Assertions.assertTrue(status.getStatus().equals("accepted") || status.getStatus().equals("finished"));
   }
 
 }
