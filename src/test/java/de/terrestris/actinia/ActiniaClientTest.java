@@ -57,14 +57,14 @@ public class ActiniaClientTest {
 
   @Test void testGettingParameters() {
     client1.getModules();
-    Module module = client1.getModule("d.barscale");
+    Module module = client1.getModule("r.rescale");
     List<Parameter> params = module.getInputParameters();
     Assertions.assertFalse(params.isEmpty());
   }
 
   @Test void testGettingOutputs() {
     client1.getModules();
-    Module module = client1.getModule("i.cluster");
+    Module module = client1.getModule("r.rescale");
     List<Parameter> params = module.getOutputParameters();
     Assertions.assertFalse(params.isEmpty());
   }
