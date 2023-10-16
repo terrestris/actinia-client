@@ -73,7 +73,7 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.10</version>
+            <version>0.8.11</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -132,7 +132,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.10</version>
+          <version>0.8.11</version>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
@@ -216,7 +216,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.10</version>
+        <version>0.8.11</version>
         <executions>
           <execution>
             <id>default-prepare-agent</id>
