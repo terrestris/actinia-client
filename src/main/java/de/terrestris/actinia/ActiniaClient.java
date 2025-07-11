@@ -54,7 +54,7 @@ public class ActiniaClient {
       if (!node.get("status").asText().equals("success")) {
         throw new ActiniaException("Getting the locations was unsuccessful.");
       }
-      node = node.get("locations");
+      node = node.get("projects");
       if (node.isArray()) {
         List<Location> list = new ArrayList<>();
         for (JsonNode jsonNode : node) {
